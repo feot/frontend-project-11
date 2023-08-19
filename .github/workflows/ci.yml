@@ -1,0 +1,23 @@
+name: CI
+
+on: push
+
+env:
+  CI: true
+
+jobs:
+  linter-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'npm'
+
+      - name: install
+        run: make install
+
+      - name: run lint
+        run: make lint
