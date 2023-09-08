@@ -9,10 +9,10 @@ const dirname = path.dirname(filename);
 
 const config = {
   mode: process.env.NODE_ENV || 'development',
-  entry: './src/js/main.js',
+  entry: './src/js/index.js',
   output: {
     clean: true,
-    filename: 'main.js',
+    filename: 'index.js',
     path: path.resolve(dirname, 'dist'),
   },
   devServer: {
