@@ -6,7 +6,7 @@ export default () => {
     urls: [],
     ui: {
       form: {
-        error: null,
+        error: 'noError',
         process: null,
       },
     },
@@ -32,8 +32,8 @@ export default () => {
   const validateUrl = (url, existingUrls) => {
     const schema = yup.string()
       .required()
-      .url('urlInvalid')
-      .notOneOf(existingUrls, 'rssDuplicated');
+      .url()
+      .notOneOf(existingUrls);
 
     return schema.validate(url);
   };
@@ -53,8 +53,9 @@ export default () => {
       })
       .catch((e) => {
         watchedState.ui.form.error = e.type;
+      })
+      .finally(() => {
+        watchedState.ui.form.process = 'loaded';
       });
-
-    watchedState.ui.form.process = 'loaded';
   });
 };

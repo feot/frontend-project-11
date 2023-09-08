@@ -8,9 +8,6 @@ const render = (state, elements) => (path, value) => {
       processHandler(elements);
       break;
 
-    case 'ui.form.valid':
-      break;
-
     case 'ui.form.error':
       errorsHandler(value, elements);
       break;
