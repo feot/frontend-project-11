@@ -1,4 +1,6 @@
 import * as yup from 'yup';
+import i18n from 'i18next';
+import resources from './locales/index.js';
 import view from './view/view.js';
 
 export default () => {
@@ -11,6 +13,13 @@ export default () => {
       },
     },
   };
+  const i18nConfig = {
+    lng: 'en',
+    debug: false,
+    resources,
+  };
+  const i18nInstance = i18n.createInstance();
+  i18nInstance.init(i18nConfig);
 
   const elements = {
     form: document.querySelector('.rss-form'),
@@ -18,7 +27,7 @@ export default () => {
     feedback: document.querySelector('.feedback'),
   };
 
-  const watchedState = view(state, elements);
+  const watchedState = view(state, elements, i18nInstance);
 
   yup.setLocale({
     string: {

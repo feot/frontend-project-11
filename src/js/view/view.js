@@ -2,14 +2,14 @@ import onChange from 'on-change';
 import processHandler from './process.js';
 import errorsHandler from './errors.js';
 
-const render = (state, elements) => (path, value) => {
+const render = (_, elements, i18n) => (path, value) => {
   switch (path) {
     case 'ui.form.process':
       processHandler(elements);
       break;
 
     case 'ui.form.error':
-      errorsHandler(value, elements);
+      errorsHandler(value, elements, i18n);
       break;
 
     default:
@@ -17,4 +17,4 @@ const render = (state, elements) => (path, value) => {
   }
 };
 
-export default (state, elements) => onChange(state, render(state, elements));
+export default (state, elements, i18n) => onChange(state, render(state, elements, i18n));

@@ -1,4 +1,4 @@
-export default (value, elements) => {
+export default (value, elements, i18n) => {
   const {
     form,
     input,
@@ -16,11 +16,11 @@ export default (value, elements) => {
 
   switch (value) {
     case 'url':
-      feedback.textContent = 'Link must be valid';
+      feedback.textContent = i18n.t(`errors.${value}`);
       break;
 
     case 'notOneOf':
-      feedback.textContent = 'Link already added';
+      feedback.textContent = i18n.t(`errors.${value}`);
       break;
 
     default:
