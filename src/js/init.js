@@ -2,6 +2,10 @@ import * as yup from 'yup';
 import i18n from 'i18next';
 import resources from './locales/index.js';
 import view from './view/view.js';
+import validateUrl from './utils/validateUrl.js';
+import getRss from './utils/getRss.js';
+import parse from './utils/parse.js';
+import renderNews from './view/renderNews.js';
 
 export default () => {
   const state = {
@@ -24,6 +28,7 @@ export default () => {
   const elements = {
     form: document.querySelector('.rss-form'),
     input: document.querySelector('#url-input'),
+    submit: document.querySelector('[type="submit"]'),
     feedback: document.querySelector('.feedback'),
   };
 
@@ -38,15 +43,6 @@ export default () => {
     },
   });
 
-  const validateUrl = (url, existingUrls) => {
-    const schema = yup.string()
-      .required()
-      .url()
-      .notOneOf(existingUrls);
-
-    return schema.validate(url);
-  };
-
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -55,10 +51,13 @@ export default () => {
 
     watchedState.ui.form.process = 'loading';
 
-    validateUrl(url, existingUrls)
-      .then(() => {
+    validateUrl(yup, url, existingUrls)
+      .then(() => getRss(url))
+      .then((data) => parse(data))
+      .then((channelData) => {
         watchedState.ui.form.error = null;
         state.urls.push(url);
+        renderNews(channelData);
       })
       .catch((e) => {
         watchedState.ui.form.error = e.type;

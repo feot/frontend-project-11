@@ -23,6 +23,14 @@ export default (value, elements, i18n) => {
       feedback.textContent = i18n.t(`errors.${value}`);
       break;
 
+    case 'notRss':
+      feedback.textContent = i18n.t(`errors.${value}`);
+      break;
+
+    case 'network':
+      feedback.textContent = i18n.t(`errors.${value}`);
+      break;
+
     default:
       throw new Error(`Unknown error: ${value}`);
   }

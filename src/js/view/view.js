@@ -5,7 +5,7 @@ import errorsHandler from './errors.js';
 const render = (_, elements, i18n) => (path, value) => {
   switch (path) {
     case 'ui.form.process':
-      processHandler(elements);
+      processHandler(value, elements);
       break;
 
     case 'ui.form.error':
