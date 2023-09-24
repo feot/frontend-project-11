@@ -7,12 +7,13 @@ export default (value, elements, i18n) => {
 
   if (value === null) {
     form.reset();
-    input.classList.remove('is-invalid');
-    feedback.textContent = '';
+    feedback.classList.add('text-success');
+    feedback.textContent = i18n.t('success');
     return;
   }
 
   input.classList.add('is-invalid');
+  feedback.classList.add('text-danger');
 
   switch (value) {
     case 'url':
