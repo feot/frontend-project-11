@@ -3,11 +3,11 @@ import genId from './genId.js';
 export default (data) => {
   const domParser = new DOMParser();
   const xmlDom = domParser.parseFromString(data, 'text/xml');
-  const rssTitleEl = xmlDom.querySelector('title');
-  const rssDescriptionEl = xmlDom.querySelector('description');
-  const rssTitle = rssTitleEl.textContent;
-  const rssDescription = rssDescriptionEl.textContent;
-  const rssId = genId();
+  const channelTitleEl = xmlDom.querySelector('title');
+  const channelDescriptionEl = xmlDom.querySelector('description');
+  const channelTitle = channelTitleEl.textContent;
+  const channelDescription = channelDescriptionEl.textContent;
+  const channelId = genId();
   const newsItems = [...xmlDom.querySelectorAll('item')];
   const news = newsItems.map((item) => {
     const titleEl = item.querySelector('title');
@@ -16,9 +16,11 @@ export default (data) => {
     const title = titleEl.textContent;
     const description = descriptionEl.textContent;
     const link = linkEl.textContent;
+    const id = genId();
 
     return {
-      rssId,
+      id,
+      channelId,
       title,
       description,
       link,
@@ -26,9 +28,11 @@ export default (data) => {
   });
 
   return {
-    id: rssId,
-    title: rssTitle,
-    description: rssDescription,
+    channel: {
+      id: channelId,
+      title: channelTitle,
+      description: channelDescription,
+    },
     news,
   };
 };

@@ -5,16 +5,18 @@ import view from './view/view.js';
 import validateUrl from './utils/validateUrl.js';
 import getRss from './utils/getRss.js';
 import parse from './utils/parse.js';
-import renderNews from './view/renderNews.js';
 
 export default () => {
   const state = {
     urls: [],
+    channels: [],
+    news: [],
     ui: {
       form: {
         error: 'noError',
         process: null,
       },
+      clickedNewsId: null,
     },
   };
   const i18nConfig = {
@@ -30,6 +32,13 @@ export default () => {
     input: document.querySelector('#url-input'),
     submit: document.querySelector('[type="submit"]'),
     feedback: document.querySelector('.feedback'),
+    posts: document.querySelector('.posts'),
+    feeds: document.querySelector('.feeds'),
+    modal: {
+      title: document.querySelector('.modal-title'),
+      description: document.querySelector('.modal-body'),
+      link: document.querySelector('.modal a'),
+    },
   };
 
   const watchedState = view(state, elements, i18nInstance);
@@ -54,10 +63,11 @@ export default () => {
     validateUrl(yup, url, existingUrls)
       .then(() => getRss(url))
       .then((data) => parse(data))
-      .then((channelData) => {
+      .then(({ channel, news }) => {
         watchedState.ui.form.error = null;
         state.urls.push(url);
-        renderNews(channelData);
+        watchedState.channels = [...state.channels, channel];
+        watchedState.news = [...state.news, ...news];
       })
       .catch((e) => {
         watchedState.ui.form.error = e.type;
@@ -65,5 +75,13 @@ export default () => {
       .finally(() => {
         watchedState.ui.form.process = 'loaded';
       });
+  });
+
+  elements.posts.addEventListener('click', (event) => {
+    const { target } = event;
+
+    if (target.nodeName === 'BUTTON') {
+      watchedState.ui.clickedNewsId = target.dataset.id;
+    }
   });
 };

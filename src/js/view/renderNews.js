@@ -1,13 +1,33 @@
-// import genId from '../utils/genId.js';
+export default (state, elements) => {
+  const { posts } = elements;
 
-// const render = (item, container) => {
-//   const { link } = item;
+  if (!posts.children.length) {
+    posts.innerHTML = `<div class="card border-0">
+    <div class="card-body"><h2 class="card-title h4">Posts</h2></div>
+    <ul class="list-group border-0 rounded-0"></ul></div>`;
+  }
 
-//   const button = document.createElement('button');
-// };
-// button.outerHTML = `<button type="button" data-id="${id}"
-// data-bs-toggle="modal" data-bs-target="#modal">Button</button>`;
+  const newsContainer = posts.querySelector('ul');
+  const { channels, news } = state;
+  const lastChannel = channels.at(-1);
+  const { id: lastChannelId } = lastChannel;
+  const lastChannelNews = news.filter(({ channelId }) => channelId === lastChannelId);
 
-export default (data) => {
-  console.log('render', data);
+  const newsEls = lastChannelNews.map((newsItem) => {
+    const {
+      id,
+      title,
+      link,
+    } = newsItem;
+
+    const newsEl = document.createElement('li');
+
+    newsEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
+
+    newsEl.innerHTML = `<a href="${link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${title}</a><button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">More info</button>`;
+
+    return newsEl;
+  });
+
+  newsContainer.prepend(...newsEls);
 };
