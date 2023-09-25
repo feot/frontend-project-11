@@ -1,16 +1,9 @@
 export default (value, elements, i18n) => {
-  const {
-    form,
-    input,
-    feedback,
-  } = elements;
-
   if (value === null) {
-    form.reset();
-    feedback.classList.add('text-success');
-    feedback.textContent = i18n.t('success');
     return;
   }
+
+  const { input, feedback } = elements;
 
   input.classList.add('is-invalid');
   feedback.classList.add('text-danger');
@@ -35,6 +28,4 @@ export default (value, elements, i18n) => {
     default:
       throw new Error(`Unknown error: ${value}`);
   }
-
-  input.focus();
 };

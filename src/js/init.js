@@ -59,6 +59,7 @@ export default () => {
     const { urls: existingUrls } = state;
 
     watchedState.ui.form.process = 'loading';
+    watchedState.ui.form.error = null;
 
     validateUrl(yup, url, existingUrls)
       .then(() => getRss(url))
@@ -68,6 +69,8 @@ export default () => {
         state.urls.push(url);
         watchedState.channels = [...state.channels, channel];
         watchedState.news = [...state.news, ...news];
+
+        watchedState.ui.form.process = 'success';
       })
       .catch((e) => {
         watchedState.ui.form.error = e.type;
