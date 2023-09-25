@@ -8,7 +8,7 @@ import renderModal from './renderModal.js';
 const render = (state, elements, i18n) => (path, value) => {
   switch (path) {
     case 'ui.form.process':
-      processHandler(value, elements);
+      processHandler(value, elements, i18n);
       break;
 
     case 'ui.form.error':

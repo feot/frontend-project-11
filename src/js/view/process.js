@@ -1,11 +1,11 @@
-export default (value, elements) => {
+export default (value, elements, i18n) => {
   const { input, submit, feedback } = elements;
 
   switch (value) {
     case 'loading':
       input.classList.remove('is-invalid');
       feedback.classList.remove('text-success', 'text-danger');
-      feedback.textContent = 'Loading...';
+      feedback.textContent = i18n.t('loading');
       submit.disabled = true;
       break;
 
