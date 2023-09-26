@@ -35,6 +35,7 @@ const rssUpdater = (state, elements) => {
     })
     .then(() => {
       if (newsToRender.length) {
+        state.news.push(...newsToRender);
         renderNews(state, elements, newsToRender);
       }
     })
