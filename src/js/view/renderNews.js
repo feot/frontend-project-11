@@ -1,4 +1,4 @@
-export default (state, elements) => {
+export default (state, elements, specificNews) => {
   const { posts } = elements;
 
   if (!posts.children.length) {
@@ -8,12 +8,18 @@ export default (state, elements) => {
   }
 
   const newsContainer = posts.querySelector('ul');
-  const { channels, news } = state;
-  const lastChannel = channels.at(-1);
-  const { id: lastChannelId } = lastChannel;
-  const lastChannelNews = news.filter(({ channelId }) => channelId === lastChannelId);
+  let newToRender;
 
-  const newsEls = lastChannelNews.map((newsItem) => {
+  if (specificNews) {
+    newToRender = [...specificNews];
+  } else {
+    const { channels, news } = state;
+    const lastChannel = channels.at(-1);
+    const { id: lastChannelId } = lastChannel;
+    newToRender = news.filter(({ channelId }) => channelId === lastChannelId);
+  }
+
+  const newsEls = newToRender.map((newsItem) => {
     const {
       id,
       title,

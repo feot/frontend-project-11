@@ -4,7 +4,7 @@ import resources from './locales/index.js';
 import view from './view/view.js';
 import validateUrl from './utils/validateUrl.js';
 import getRss from './utils/getRss.js';
-import parse from './utils/parse.js';
+import rssUpdater from './utils/rssUpdater.js';
 
 export default () => {
   const state = {
@@ -62,8 +62,7 @@ export default () => {
     watchedState.ui.form.error = null;
 
     validateUrl(yup, url, existingUrls)
-      .then(() => getRss(url))
-      .then((data) => parse(data))
+      .then(() => getRss(url, state))
       .then(({ channel, news }) => {
         watchedState.ui.form.error = null;
         state.urls.push(url);
@@ -87,4 +86,6 @@ export default () => {
       watchedState.ui.clickedNewsId = target.dataset.id;
     }
   });
+
+  rssUpdater(state, elements);
 };

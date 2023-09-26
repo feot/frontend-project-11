@@ -1,4 +1,7 @@
-export default (url) => {
+import parse from './parse.js';
+import genId from './genId.js';
+
+export default (url, state) => {
   const requestUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
   const error = new Error();
   error.type = 'network';
@@ -13,11 +16,34 @@ export default (url) => {
     .then((data) => {
       const { content_type: contentType } = data.status;
 
-      if (contentType.startsWith('application/rss+xml; charset=utf-8')) {
-        return data.contents;
+      if (contentType.startsWith('application/rss+xml')) {
+        return parse(data.contents);
       }
       error.type = 'notRss';
       throw error;
+    })
+    .then((parsedData) => {
+      const { channels: addedChannels } = state;
+      const existingChannel = addedChannels.find((addedChannel) => addedChannel.url === url);
+      let channel;
+
+      if (existingChannel) {
+        channel = existingChannel;
+      } else {
+        channel = parsedData.channel;
+        channel.id = genId();
+        channel.url = url;
+      }
+
+      const news = parsedData.news.map((newsItem) => (
+        {
+          ...newsItem,
+          id: genId(),
+          channelId: channel.id,
+        }
+      ));
+
+      return { channel, news };
     })
     .catch(() => {
       throw error;
