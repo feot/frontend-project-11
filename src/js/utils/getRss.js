@@ -14,10 +14,9 @@ export default (url, state) => {
       throw error;
     })
     .then((data) => {
-      console.log('getRss data', JSON.stringify(data, null, 2));
-      const { content_type: contentType } = data.status;
+      const isRss = data.contents && data.contents.startsWith('<?xml');
 
-      if (contentType.startsWith('application/rss+xml')) {
+      if (isRss) {
         return parse(data.contents);
       }
       error.type = 'notRss';
