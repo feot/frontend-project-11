@@ -14,6 +14,7 @@ export default (url, state) => {
       throw error;
     })
     .then((data) => {
+      console.log('getRss data', JSON.stringify(data, null, 2));
       const { content_type: contentType } = data.status;
 
       if (contentType.startsWith('application/rss+xml')) {
@@ -45,7 +46,8 @@ export default (url, state) => {
 
       return { channel, news };
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log('getRss erros', e);
       throw error;
     });
 };

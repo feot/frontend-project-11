@@ -70,10 +70,6 @@ export default () => {
     label.textContent = i18nInstance.t('form.inputPlaceholder');
     submit.textContent = i18nInstance.t('form.submit');
     link.textContent = i18nInstance.t('modal.read');
-    console.log({
-      'close el': close,
-      'close text': i18nInstance.t('modal.close'),
-    });
     close.textContent = i18nInstance.t('modal.close');
   });
 
@@ -82,6 +78,7 @@ export default () => {
     const formData = new FormData(event.target);
     const url = formData.get('url').trim();
     const { urls: existingUrls } = state;
+    console.log('url', url);
 
     watchedState.ui.form.process = 'loading';
     watchedState.ui.form.error = null;
@@ -97,6 +94,7 @@ export default () => {
         watchedState.ui.form.process = 'success';
       })
       .catch((e) => {
+        console.log('init error', e);
         watchedState.ui.form.error = e.type;
       })
       .finally(() => {
