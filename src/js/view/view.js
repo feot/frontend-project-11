@@ -20,7 +20,7 @@ const render = (state, elements, i18n) => (path, value) => {
       break;
 
     case 'channels':
-      renderChannel(state, elements, i18n);
+      renderChannel(state, elements);
       break;
 
     case 'news':

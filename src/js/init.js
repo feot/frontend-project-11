@@ -36,7 +36,9 @@ export default () => {
     submit: document.querySelector('[type="submit"]'),
     feedback: document.querySelector('.feedback'),
     posts: document.querySelector('.posts'),
+    postsHeadline: document.querySelector('.posts h2'),
     feeds: document.querySelector('.feeds'),
+    feedsHeadline: document.querySelector('.feeds h2'),
     modal: {
       title: document.querySelector('.modal-title'),
       description: document.querySelector('.modal-body'),
@@ -62,6 +64,8 @@ export default () => {
       input,
       label,
       submit,
+      postsHeadline,
+      feedsHeadline,
     } = elements;
     const { link, close } = elements.modal;
 
@@ -69,6 +73,8 @@ export default () => {
     input.placeholder = i18nInstance.t('form.inputPlaceholder');
     label.textContent = i18nInstance.t('form.inputPlaceholder');
     submit.textContent = i18nInstance.t('form.submit');
+    postsHeadline.textContent = i18nInstance.t('layout.postsHeadline');
+    feedsHeadline.textContent = i18nInstance.t('layout.channelsHeadline');
     link.textContent = i18nInstance.t('modal.read');
     close.textContent = i18nInstance.t('modal.close');
   });

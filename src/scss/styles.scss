@@ -1,7 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
 
-.feedback:empty,
-.posts:empty,
-.feeds:empty {
+.feedback:empty {
   display: none;
 }
