@@ -9,6 +9,10 @@ export default (value, elements, i18n) => {
   feedback.classList.add('text-danger');
 
   switch (value) {
+    case 'required':
+      feedback.textContent = i18n.t(`errors.${value}`);
+      break;
+
     case 'url':
       feedback.textContent = i18n.t(`errors.${value}`);
       break;
