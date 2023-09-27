@@ -29,8 +29,10 @@ export default () => {
   i18nInstance.init(i18nConfig);
 
   const elements = {
+    headline: document.querySelector('h1'),
     form: document.querySelector('.rss-form'),
     input: document.querySelector('#url-input'),
+    label: document.querySelector('[for="url-input"]'),
     submit: document.querySelector('[type="submit"]'),
     feedback: document.querySelector('.feedback'),
     posts: document.querySelector('.posts'),
@@ -38,7 +40,8 @@ export default () => {
     modal: {
       title: document.querySelector('.modal-title'),
       description: document.querySelector('.modal-body'),
-      link: document.querySelector('.modal a'),
+      link: document.querySelector('.modal-footer a'),
+      close: document.querySelector('.modal-footer [data-bs-dismiss]'),
     },
   };
 
@@ -51,6 +54,27 @@ export default () => {
     mixed: {
       notOneOf: 'rssDuplicated',
     },
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const {
+      headline,
+      input,
+      label,
+      submit,
+    } = elements;
+    const { link, close } = elements.modal;
+
+    headline.textContent = i18nInstance.t('headline');
+    input.placeholder = i18nInstance.t('form.inputPlaceholder');
+    label.textContent = i18nInstance.t('form.inputPlaceholder');
+    submit.textContent = i18nInstance.t('form.submit');
+    link.textContent = i18nInstance.t('modal.read');
+    console.log({
+      'close el': close,
+      'close text': i18nInstance.t('modal.close'),
+    });
+    close.textContent = i18nInstance.t('modal.close');
   });
 
   elements.form.addEventListener('submit', (event) => {

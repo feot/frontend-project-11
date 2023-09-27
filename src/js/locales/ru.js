@@ -1,5 +1,10 @@
 export default {
   translation: {
+    headline: 'RSS агрегатор',
+    form: {
+      inputPlaceholder: 'Ссылка RSS',
+      submit: 'Добавить',
+    },
     loading: 'Загрузка...',
     success: 'RSS успешно загружен',
     errors: {
@@ -9,8 +14,16 @@ export default {
       notRss: 'Ресурс не содержит валидный RSS',
       network: 'Ошибка сети',
     },
+    layout: {
+      postsHeadline: 'Посты',
+      channelsHeadline: 'Фиды',
+    },
     post: {
       info: 'Просмотр',
+    },
+    modal: {
+      read: 'Читать полностью ',
+      close: 'Закрыть',
     },
   },
 };

@@ -3,7 +3,7 @@ export default (state, elements, i18n, specificNews) => {
 
   if (!posts.children.length) {
     posts.innerHTML = `<div class="card border-0">
-    <div class="card-body"><h2 class="card-title h4">Posts</h2></div>
+    <div class="card-body"><h2 class="card-title h4">${i18n.t('layout.postsHeadline')}</h2></div>
     <ul class="list-group border-0 rounded-0"></ul></div>`;
   }
 
