@@ -78,7 +78,6 @@ export default () => {
     const formData = new FormData(event.target);
     const url = formData.get('url').trim();
     const { urls: existingUrls } = state;
-    console.log('url', url);
 
     watchedState.ui.form.process = 'loading';
     watchedState.ui.form.error = null;
@@ -94,7 +93,6 @@ export default () => {
         watchedState.ui.form.process = 'success';
       })
       .catch((e) => {
-        console.log('init error', e);
         watchedState.ui.form.error = e.type;
       })
       .finally(() => {

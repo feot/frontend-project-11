@@ -45,8 +45,7 @@ export default (url, state) => {
 
       return { channel, news };
     })
-    .catch((e) => {
-      console.log('getRss erros', e);
+    .catch(() => {
       throw error;
     });
 };
