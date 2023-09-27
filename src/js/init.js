@@ -21,7 +21,7 @@ export default () => {
     },
   };
   const i18nConfig = {
-    lng: 'en',
+    lng: 'ru',
     debug: false,
     resources,
   };
