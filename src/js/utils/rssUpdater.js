@@ -9,31 +9,38 @@ const updater = (fn, watchStartTime, delay = 5000) => {
   setTimeout(() => fn(), timeoutDelay);
 };
 
+const filterNews = (data, state) => {
+  const filteredNews = [];
+
+  data.forEach(({ channel, news }) => {
+    const oldChannelNews = state.news.filter((newsItem) => {
+      const { channelId } = newsItem;
+
+      return channelId === channel.id;
+    });
+    const newNews = news.filter((newItem) => {
+      const { link: newItemLink } = newItem;
+
+      return !oldChannelNews.some((oldNewsItem) => {
+        const { link: oldItemLink } = oldNewsItem;
+
+        return oldItemLink === newItemLink;
+      });
+    });
+
+    filteredNews.push(...newNews);
+  });
+
+  return filteredNews;
+};
+
 const rssUpdater = (state, elements, i18n) => {
   const watchStartTime = new Date();
-  const { urls } = state;
-  const newsToRender = [];
-
-  const requests = urls.map((url) => getRss(url, state));
+  const requests = state.urls.map((url) => getRss(url, state));
 
   Promise.all(requests)
-    .then((responses) => {
-      responses.forEach(({ channel, news }) => {
-        const oldChannelNews = state.news.filter((newsItem) => {
-          const { channelId } = newsItem;
-
-          return channelId === channel.id;
-        });
-
-        const newNews = news.filter((newItem) => {
-          const { link: newItemLink } = newItem;
-
-          return !oldChannelNews.some(({ link: oldItemLink }) => oldItemLink === newItemLink);
-        });
-        newsToRender.push(...newNews);
-      });
-    })
-    .then(() => {
+    .then((data) => filterNews(data, state))
+    .then((newsToRender) => {
       if (newsToRender.length) {
         state.news.push(...newsToRender);
         renderNews(state, elements, i18n, newsToRender);
