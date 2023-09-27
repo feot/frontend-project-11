@@ -5,6 +5,7 @@ import view from './view/view.js';
 import validateUrl from './utils/validateUrl.js';
 import getRss from './utils/getRss.js';
 import rssUpdater from './utils/rssUpdater.js';
+import markLinkVisited from './utils/markLinkVisited.js';
 
 export default () => {
   const state = {
@@ -84,6 +85,11 @@ export default () => {
 
     if (target.nodeName === 'BUTTON') {
       watchedState.ui.clickedNewsId = target.dataset.id;
+      markLinkVisited(target.dataset.id);
+    }
+
+    if (target.nodeName === 'A') {
+      markLinkVisited(target.dataset.id);
     }
   });
 
