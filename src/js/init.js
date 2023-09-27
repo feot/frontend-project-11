@@ -93,5 +93,5 @@ export default () => {
     }
   });
 
-  rssUpdater(state, elements);
+  rssUpdater(state, elements, i18nInstance);
 };

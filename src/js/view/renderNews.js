@@ -1,4 +1,4 @@
-export default (state, elements, specificNews) => {
+export default (state, elements, i18n, specificNews) => {
   const { posts } = elements;
 
   if (!posts.children.length) {
@@ -30,7 +30,7 @@ export default (state, elements, specificNews) => {
 
     newsEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
 
-    newsEl.innerHTML = `<a href="${link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${title}</a><button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">More info</button>`;
+    newsEl.innerHTML = `<a href="${link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${title}</a><button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">${i18n.t('post.info')}</button>`;
 
     return newsEl;
   });

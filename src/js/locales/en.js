@@ -9,5 +9,8 @@ export default {
       notRss: 'Link does not lead to correct RSS',
       network: 'Network error, try again',
     },
+    post: {
+      info: 'More info',
+    },
   },
 };

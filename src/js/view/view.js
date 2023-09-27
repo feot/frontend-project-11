@@ -24,7 +24,7 @@ const render = (state, elements, i18n) => (path, value) => {
       break;
 
     case 'news':
-      renderNews(state, elements);
+      renderNews(state, elements, i18n);
       break;
 
     default:

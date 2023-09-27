@@ -9,7 +9,7 @@ const updater = (fn, watchStartTime, delay = 5000) => {
   setTimeout(() => fn(), timeoutDelay);
 };
 
-const rssUpdater = (state, elements) => {
+const rssUpdater = (state, elements, i18n) => {
   const watchStartTime = new Date();
   const { urls } = state;
   const newsToRender = [];
@@ -36,17 +36,17 @@ const rssUpdater = (state, elements) => {
     .then(() => {
       if (newsToRender.length) {
         state.news.push(...newsToRender);
-        renderNews(state, elements, newsToRender);
+        renderNews(state, elements, i18n, newsToRender);
       }
     })
     .catch(() => null)
     .finally(() => {
-      updater(() => rssUpdater(state, elements), watchStartTime);
+      updater(() => rssUpdater(state, elements, i18n), watchStartTime);
     });
 };
 
-export default (state, elements) => {
+export default (state, elements, i18n) => {
   const watchStartTime = new Date();
 
-  updater(() => rssUpdater(state, elements), watchStartTime);
+  updater(() => rssUpdater(state, elements, i18n), watchStartTime);
 };
