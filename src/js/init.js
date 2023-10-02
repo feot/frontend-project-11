@@ -6,6 +6,46 @@ import validateUrl from './utils/validateUrl.js';
 import getRss from './utils/getRss.js';
 import rssUpdater from './utils/rssUpdater.js';
 
+const getElements = () => ({
+  headline: document.querySelector('h1'),
+  form: document.querySelector('.rss-form'),
+  input: document.querySelector('#url-input'),
+  label: document.querySelector('[for="url-input"]'),
+  submit: document.querySelector('[type="submit"]'),
+  feedback: document.querySelector('.feedback'),
+  posts: document.querySelector('.posts'),
+  postsHeadline: document.querySelector('.posts h2'),
+  feeds: document.querySelector('.feeds'),
+  feedsHeadline: document.querySelector('.feeds h2'),
+  modal: {
+    title: document.querySelector('.modal-title'),
+    description: document.querySelector('.modal-body'),
+    link: document.querySelector('.modal-footer a'),
+    close: document.querySelector('.modal-footer [data-bs-dismiss]'),
+  },
+});
+
+const applyInitialTexts = (elements, i18nInstance) => {
+  const {
+    headline,
+    input,
+    label,
+    submit,
+    postsHeadline,
+    feedsHeadline,
+  } = elements;
+  const { link, close } = elements.modal;
+
+  headline.textContent = i18nInstance.t('headline');
+  input.placeholder = i18nInstance.t('form.inputPlaceholder');
+  label.textContent = i18nInstance.t('form.inputPlaceholder');
+  submit.textContent = i18nInstance.t('form.submit');
+  postsHeadline.textContent = i18nInstance.t('layout.postsHeadline');
+  feedsHeadline.textContent = i18nInstance.t('layout.feedsHeadline');
+  link.textContent = i18nInstance.t('modal.read');
+  close.textContent = i18nInstance.t('modal.close');
+};
+
 const app = (i18nInstance) => {
   const state = {
     urls: [],
@@ -21,24 +61,7 @@ const app = (i18nInstance) => {
     },
   };
 
-  const elements = {
-    headline: document.querySelector('h1'),
-    form: document.querySelector('.rss-form'),
-    input: document.querySelector('#url-input'),
-    label: document.querySelector('[for="url-input"]'),
-    submit: document.querySelector('[type="submit"]'),
-    feedback: document.querySelector('.feedback'),
-    posts: document.querySelector('.posts'),
-    postsHeadline: document.querySelector('.posts h2'),
-    feeds: document.querySelector('.feeds'),
-    feedsHeadline: document.querySelector('.feeds h2'),
-    modal: {
-      title: document.querySelector('.modal-title'),
-      description: document.querySelector('.modal-body'),
-      link: document.querySelector('.modal-footer a'),
-      close: document.querySelector('.modal-footer [data-bs-dismiss]'),
-    },
-  };
+  const elements = getElements();
 
   const watchedState = view(state, elements, i18nInstance);
 
@@ -51,26 +74,7 @@ const app = (i18nInstance) => {
     },
   });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const {
-      headline,
-      input,
-      label,
-      submit,
-      postsHeadline,
-      feedsHeadline,
-    } = elements;
-    const { link, close } = elements.modal;
-
-    headline.textContent = i18nInstance.t('headline');
-    input.placeholder = i18nInstance.t('form.inputPlaceholder');
-    label.textContent = i18nInstance.t('form.inputPlaceholder');
-    submit.textContent = i18nInstance.t('form.submit');
-    postsHeadline.textContent = i18nInstance.t('layout.postsHeadline');
-    feedsHeadline.textContent = i18nInstance.t('layout.feedsHeadline');
-    link.textContent = i18nInstance.t('modal.read');
-    close.textContent = i18nInstance.t('modal.close');
-  });
+  window.addEventListener('DOMContentLoaded', () => applyInitialTexts(elements, i18nInstance));
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
