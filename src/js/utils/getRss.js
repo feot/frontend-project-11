@@ -1,8 +1,16 @@
 import parse from './parse.js';
 import genId from './genId.js';
 
+const addProxy = (url) => {
+  const urlWithProxy = new URL('/get', 'https://allorigins.hexlet.app');
+  urlWithProxy.searchParams.set('url', url);
+  urlWithProxy.searchParams.set('disableCache', 'true');
+
+  return urlWithProxy.toString();
+};
+
 export default (url, state) => {
-  const requestUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
+  const requestUrl = addProxy(url);
   const error = new Error();
   error.type = 'network';
 
