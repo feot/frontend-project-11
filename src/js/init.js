@@ -15,8 +15,8 @@ const app = (i18nInstance) => {
     ui: {
       form: {
         error: 'noError',
-        process: null,
       },
+      loadingProcess: null,
       clickedPostId: null,
     },
   };
@@ -78,7 +78,7 @@ const app = (i18nInstance) => {
     const url = formData.get('url').trim();
     const { urls: existingUrls } = state;
 
-    watchedState.ui.form.process = 'loading';
+    watchedState.ui.loadingProcess = 'loading';
     watchedState.ui.form.error = null;
 
     validateUrl(yup, url, existingUrls)
@@ -89,7 +89,7 @@ const app = (i18nInstance) => {
         watchedState.feeds = [...state.feeds, feed];
         watchedState.posts = [...state.posts, ...posts];
 
-        watchedState.ui.form.process = 'success';
+        watchedState.ui.loadingProcess = 'success';
 
         if (state.urls.length === 1) {
           setTimeout(() => rssUpdater(watchedState, elements, i18nInstance), 5000);
@@ -99,7 +99,7 @@ const app = (i18nInstance) => {
         watchedState.ui.form.error = e.type;
       })
       .finally(() => {
-        watchedState.ui.form.process = 'loaded';
+        watchedState.ui.loadingProcess = 'loaded';
       });
   });
 
