@@ -1,14 +1,7 @@
 import getRss from './getRss.js';
 import renderNews from '../view/renderNews.js';
 
-const updater = (fn, watchStartTime, delay = 5000) => {
-  const watchEndTime = new Date();
-  const watchPassedTime = watchEndTime - watchStartTime;
-  const timeoutDelay = (watchPassedTime > delay) ? 0 : delay - watchPassedTime;
-
-  setTimeout(() => fn(), timeoutDelay);
-};
-
+const delay = 5000;
 const filterNews = (data, state) => {
   const filteredNews = [];
 
@@ -35,25 +28,31 @@ const filterNews = (data, state) => {
 };
 
 const rssUpdater = (state, elements, i18n) => {
+  const { urls, news } = state;
+
+  if (!urls.length) {
+    return;
+  }
+
   const watchStartTime = new Date();
-  const requests = state.urls.map((url) => getRss(url, state));
+  const requests = urls.map((url) => getRss(url, state));
 
   Promise.all(requests)
     .then((data) => filterNews(data, state))
     .then((newsToRender) => {
       if (newsToRender.length) {
-        state.news.push(...newsToRender);
+        news.push(...newsToRender);
         renderNews(state, elements, i18n, newsToRender);
       }
     })
     .catch(() => null)
     .finally(() => {
-      updater(() => rssUpdater(state, elements, i18n), watchStartTime);
+      const watchEndTime = new Date();
+      const watchPassedTime = watchEndTime - watchStartTime;
+      const timeoutDelay = (watchPassedTime > delay) ? 0 : delay - watchPassedTime;
+
+      setTimeout(() => rssUpdater(state, elements, i18n), timeoutDelay);
     });
 };
 
-export default (state, elements, i18n) => {
-  const watchStartTime = new Date();
-
-  updater(() => rssUpdater(state, elements, i18n), watchStartTime);
-};
+export default rssUpdater;

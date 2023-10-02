@@ -112,7 +112,8 @@ const app = (i18nInstance) => {
     }
   });
 
-  rssUpdater(state, elements, i18nInstance);
+  const delay = 5000;
+  setTimeout(() => rssUpdater(state, elements, i18nInstance), delay);
 };
 
 export default () => {
