@@ -9,12 +9,12 @@ export default (data) => {
     throw error;
   }
 
-  const channelTitleEl = xmlDom.querySelector('title');
-  const channelDescriptionEl = xmlDom.querySelector('description');
-  const channelTitle = channelTitleEl.textContent;
-  const channelDescription = channelDescriptionEl.textContent;
-  const newsItems = [...xmlDom.querySelectorAll('item')];
-  const news = newsItems.map((item) => {
+  const feedTitleEl = xmlDom.querySelector('title');
+  const feedDescriptionEl = xmlDom.querySelector('description');
+  const feedTitle = feedTitleEl.textContent;
+  const feedDescription = feedDescriptionEl.textContent;
+  const postItems = [...xmlDom.querySelectorAll('item')];
+  const posts = postItems.map((item) => {
     const titleEl = item.querySelector('title');
     const descriptionEl = item.querySelector('description');
     const linkEl = item.querySelector('link');
@@ -30,10 +30,10 @@ export default (data) => {
   });
 
   return {
-    channel: {
-      title: channelTitle,
-      description: channelDescription,
+    feed: {
+      title: feedTitle,
+      description: feedDescription,
     },
-    news,
+    posts,
   };
 };

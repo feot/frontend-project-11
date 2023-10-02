@@ -1,11 +1,11 @@
-export default (clickedNewsId, state, elements) => {
-  const { news } = state;
-  const newsItem = news.find(({ id }) => id === clickedNewsId);
+export default (clickedPostId, state, elements) => {
+  const { posts } = state;
+  const post = posts.find(({ id }) => id === clickedPostId);
   const {
     title,
     description,
     link,
-  } = newsItem;
+  } = post;
   const {
     title: titleEl,
     description: descriptionEl,

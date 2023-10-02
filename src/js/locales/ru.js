@@ -16,7 +16,7 @@ export default {
     },
     layout: {
       postsHeadline: 'Посты',
-      channelsHeadline: 'Фиды',
+      feedsHeadline: 'Фиды',
     },
     post: {
       info: 'Просмотр',

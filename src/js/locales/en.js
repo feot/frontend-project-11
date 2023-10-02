@@ -16,7 +16,7 @@ export default {
     },
     layout: {
       postsHeadline: 'Posts',
-      channelsHeadline: 'Channels',
+      feedsHeadline: 'Feeds',
     },
     post: {
       info: 'More info',

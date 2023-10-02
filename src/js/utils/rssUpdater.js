@@ -1,35 +1,35 @@
 import getRss from './getRss.js';
 
 const delay = 5000;
-const filterNews = ({ channel, news }, state) => {
-  const oldChannelNews = state.news.filter((newsItem) => {
-    const { channelId } = newsItem;
+const filterPosts = ({ feed, posts }, state) => {
+  const oldFeedPosts = state.posts.filter((post) => {
+    const { feedId } = post;
 
-    return channelId === channel.id;
+    return feedId === feed.id;
   });
-  const newNews = news.filter((newItem) => {
+  const newPosts = posts.filter((newItem) => {
     const { link: newItemLink } = newItem;
 
-    return !oldChannelNews.some((oldNewsItem) => {
-      const { link: oldItemLink } = oldNewsItem;
+    return !oldFeedPosts.some((oldPosts) => {
+      const { link: oldItemLink } = oldPosts;
 
       return oldItemLink === newItemLink;
     });
   });
 
-  return newNews;
+  return newPosts;
 };
 
 const rssUpdater = (state, elements, i18n) => {
-  const { urls, news } = state;
+  const { urls, posts } = state;
   const watchStartTime = new Date();
 
   urls.forEach((url) => {
     getRss(url, state)
-      .then((data) => filterNews(data, state))
-      .then((newsToRender) => {
-        if (newsToRender.length) {
-          news.push(...newsToRender);
+      .then((data) => filterPosts(data, state))
+      .then((postsToRender) => {
+        if (postsToRender.length) {
+          posts.push(...postsToRender);
         }
       })
       .catch(() => null)

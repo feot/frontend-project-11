@@ -1,8 +1,8 @@
 import onChange from 'on-change';
 import processHandler from './process.js';
 import errorsHandler from './errors.js';
-import renderChannel from './renderChannel.js';
-import renderNews from './renderNews.js';
+import renderFeed from './renderFeed.js';
+import renderPosts from './renderPosts.js';
 import renderModal from './renderModal.js';
 
 const render = (state, elements, i18n) => (path, value, _, applyData) => {
@@ -15,16 +15,16 @@ const render = (state, elements, i18n) => (path, value, _, applyData) => {
       errorsHandler(value, elements, i18n);
       break;
 
-    case 'ui.clickedNewsId':
+    case 'ui.clickedPostId':
       renderModal(value, state, elements);
       break;
 
-    case 'channels':
-      renderChannel(state, elements);
+    case 'feeds':
+      renderFeed(state, elements);
       break;
 
-    case 'news':
-      renderNews(state, elements, i18n, applyData);
+    case 'posts':
+      renderPosts(state, elements, i18n, applyData);
       break;
 
     default:

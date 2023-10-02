@@ -10,14 +10,14 @@ import markLinkVisited from './utils/markLinkVisited.js';
 const app = (i18nInstance) => {
   const state = {
     urls: [],
-    channels: [],
-    news: [],
+    feeds: [],
+    posts: [],
     ui: {
       form: {
         error: 'noError',
         process: null,
       },
-      clickedNewsId: null,
+      clickedPostId: null,
     },
   };
 
@@ -67,7 +67,7 @@ const app = (i18nInstance) => {
     label.textContent = i18nInstance.t('form.inputPlaceholder');
     submit.textContent = i18nInstance.t('form.submit');
     postsHeadline.textContent = i18nInstance.t('layout.postsHeadline');
-    feedsHeadline.textContent = i18nInstance.t('layout.channelsHeadline');
+    feedsHeadline.textContent = i18nInstance.t('layout.feedsHeadline');
     link.textContent = i18nInstance.t('modal.read');
     close.textContent = i18nInstance.t('modal.close');
   });
@@ -83,11 +83,11 @@ const app = (i18nInstance) => {
 
     validateUrl(yup, url, existingUrls)
       .then(() => getRss(url, state))
-      .then(({ channel, news }) => {
+      .then(({ feed, posts }) => {
         watchedState.ui.form.error = null;
         state.urls.push(url);
-        watchedState.channels = [...state.channels, channel];
-        watchedState.news = [...state.news, ...news];
+        watchedState.feeds = [...state.feeds, feed];
+        watchedState.posts = [...state.posts, ...posts];
 
         watchedState.ui.form.process = 'success';
 
@@ -107,7 +107,7 @@ const app = (i18nInstance) => {
     const { target } = event;
 
     if (target.nodeName === 'BUTTON') {
-      watchedState.ui.clickedNewsId = target.dataset.id;
+      watchedState.ui.clickedPostId = target.dataset.id;
       markLinkVisited(target.dataset.id);
     }
 

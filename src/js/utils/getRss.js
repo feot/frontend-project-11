@@ -23,27 +23,27 @@ export default (url, state) => {
     })
     .then((data) => parse(data.contents))
     .then((parsedData) => {
-      const { channels: addedChannels } = state;
-      const existingChannel = addedChannels.find((addedChannel) => addedChannel.url === url);
-      let channel;
+      const { feeds: addedFeeds } = state;
+      const existingFeed = addedFeeds.find((addedFeed) => addedFeed.url === url);
+      let feed;
 
-      if (existingChannel) {
-        channel = existingChannel;
+      if (existingFeed) {
+        feed = existingFeed;
       } else {
-        channel = parsedData.channel;
-        channel.id = genId();
-        channel.url = url;
+        feed = parsedData.feed;
+        feed.id = genId();
+        feed.url = url;
       }
 
-      const news = parsedData.news.map((newsItem) => (
+      const posts = parsedData.posts.map((post) => (
         {
-          ...newsItem,
+          ...post,
           id: genId(),
-          channelId: channel.id,
+          feedId: feed.id,
         }
       ));
 
-      return { channel, news };
+      return { feed, posts };
     })
     .catch((e) => {
       if (e.type) {
