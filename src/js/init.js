@@ -90,6 +90,10 @@ const app = (i18nInstance) => {
         watchedState.news = [...state.news, ...news];
 
         watchedState.ui.form.process = 'success';
+
+        if (state.urls.length === 1) {
+          setTimeout(() => rssUpdater(watchedState, elements, i18nInstance), 5000);
+        }
       })
       .catch((e) => {
         watchedState.ui.form.error = e.type;
@@ -111,9 +115,6 @@ const app = (i18nInstance) => {
       markLinkVisited(target.dataset.id);
     }
   });
-
-  const delay = 5000;
-  setTimeout(() => rssUpdater(state, elements, i18nInstance), delay);
 };
 
 export default () => {

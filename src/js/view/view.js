@@ -5,7 +5,7 @@ import renderChannel from './renderChannel.js';
 import renderNews from './renderNews.js';
 import renderModal from './renderModal.js';
 
-const render = (state, elements, i18n) => (path, value) => {
+const render = (state, elements, i18n) => (path, value, _, applyData) => {
   switch (path) {
     case 'ui.form.process':
       processHandler(value, elements, i18n);
@@ -24,7 +24,7 @@ const render = (state, elements, i18n) => (path, value) => {
       break;
 
     case 'news':
-      renderNews(state, elements, i18n);
+      renderNews(state, elements, i18n, applyData);
       break;
 
     default:

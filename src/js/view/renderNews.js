@@ -1,4 +1,4 @@
-export default (state, elements, i18n, specificNews) => {
+export default (state, elements, i18n, applyData) => {
   const { posts } = elements;
   const isContainerEmpty = !posts.querySelectorAll('.list-group-item').length;
 
@@ -9,8 +9,9 @@ export default (state, elements, i18n, specificNews) => {
   const newsContainer = posts.querySelector('ul');
   let newToRender;
 
-  if (specificNews) {
-    newToRender = [...specificNews];
+  if (applyData) {
+    const { args: newItems } = applyData;
+    newToRender = newItems;
   } else {
     const { channels, news } = state;
     const lastChannel = channels.at(-1);
