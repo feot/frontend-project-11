@@ -7,7 +7,7 @@ import getRss from './utils/getRss.js';
 import rssUpdater from './utils/rssUpdater.js';
 import markLinkVisited from './utils/markLinkVisited.js';
 
-export default () => {
+const app = (i18nInstance) => {
   const state = {
     urls: [],
     channels: [],
@@ -20,13 +20,6 @@ export default () => {
       clickedNewsId: null,
     },
   };
-  const i18nConfig = {
-    lng: 'ru',
-    debug: false,
-    resources,
-  };
-  const i18nInstance = i18n.createInstance();
-  i18nInstance.init(i18nConfig);
 
   const elements = {
     headline: document.querySelector('h1'),
@@ -120,4 +113,15 @@ export default () => {
   });
 
   rssUpdater(state, elements, i18nInstance);
+};
+
+export default () => {
+  const i18nConfig = {
+    lng: 'ru',
+    debug: false,
+    resources,
+  };
+  const i18nInstance = i18n.createInstance();
+
+  i18nInstance.init(i18nConfig).then(() => app(i18nInstance));
 };
