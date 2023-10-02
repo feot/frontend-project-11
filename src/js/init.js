@@ -5,7 +5,6 @@ import view from './view/view.js';
 import validateUrl from './utils/validateUrl.js';
 import getRss from './utils/getRss.js';
 import rssUpdater from './utils/rssUpdater.js';
-import markLinkVisited from './utils/markLinkVisited.js';
 
 const app = (i18nInstance) => {
   const state = {
@@ -17,6 +16,7 @@ const app = (i18nInstance) => {
         error: 'noError',
       },
       loadingProcess: null,
+      viewedPosts: [],
       clickedPostId: null,
     },
   };
@@ -108,11 +108,11 @@ const app = (i18nInstance) => {
 
     if (target.nodeName === 'BUTTON') {
       watchedState.ui.clickedPostId = target.dataset.id;
-      markLinkVisited(target.dataset.id);
+      watchedState.ui.viewedPosts.push(target.dataset.id);
     }
 
     if (target.nodeName === 'A') {
-      markLinkVisited(target.dataset.id);
+      watchedState.ui.viewedPosts.push(target.dataset.id);
     }
   });
 };

@@ -4,6 +4,7 @@ import errorsHandler from './errors.js';
 import renderFeed from './renderFeed.js';
 import renderPosts from './renderPosts.js';
 import renderModal from './renderModal.js';
+import postViewHandler from './postView.js';
 
 const render = (state, elements, i18n) => (path, value, _, applyData) => {
   switch (path) {
@@ -17,6 +18,10 @@ const render = (state, elements, i18n) => (path, value, _, applyData) => {
 
     case 'ui.clickedPostId':
       renderModal(value, state, elements);
+      break;
+
+    case 'ui.viewedPosts':
+      postViewHandler(applyData);
       break;
 
     case 'feeds':
