@@ -1,6 +1,14 @@
 export default (data) => {
   const domParser = new DOMParser();
   const xmlDom = domParser.parseFromString(data, 'text/xml');
+  const errorNode = xmlDom.querySelector('parsererror');
+
+  if (errorNode) {
+    const error = new Error();
+    error.type = 'notRss';
+    throw error;
+  }
+
   const channelTitleEl = xmlDom.querySelector('title');
   const channelDescriptionEl = xmlDom.querySelector('description');
   const channelTitle = channelTitleEl.textContent;

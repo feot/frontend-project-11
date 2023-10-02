@@ -13,15 +13,7 @@ export default (url, state) => {
       }
       throw error;
     })
-    .then((data) => {
-      const isRss = data.contents && data.contents.startsWith('<?xml');
-
-      if (isRss) {
-        return parse(data.contents);
-      }
-      error.type = 'notRss';
-      throw error;
-    })
+    .then((data) => parse(data.contents))
     .then((parsedData) => {
       const { channels: addedChannels } = state;
       const existingChannel = addedChannels.find((addedChannel) => addedChannel.url === url);
@@ -45,7 +37,11 @@ export default (url, state) => {
 
       return { channel, news };
     })
-    .catch(() => {
-      throw error;
+    .catch((e) => {
+      if (e.type) {
+        throw e;
+      } else {
+        throw error;
+      }
     });
 };
