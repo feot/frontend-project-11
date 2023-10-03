@@ -15,7 +15,13 @@ export default (state, elements) => {
   } = feeds.at(-1);
 
   feedEl.classList.add('list-group-item', 'border-0', 'border-end-0');
-  feedEl.innerHTML = `<h3 class="h6 m-0">${feedTitle}</h3><p class="m-0 small text-black-50">${feedDescription}</p>`;
+  const feedTitleEl = document.createElement('h3');
+  feedTitleEl.classList.add('h6', 'm-0');
+  feedTitleEl.textContent = feedTitle;
+  const feedDescriptionEl = document.createElement('p');
+  feedDescriptionEl.classList.add('m-0', 'small', 'text-black-50');
+  feedDescriptionEl.textContent = feedDescription;
+  feedEl.append(feedTitleEl, feedDescriptionEl);
 
   feedsContainer.prepend(feedEl);
 };

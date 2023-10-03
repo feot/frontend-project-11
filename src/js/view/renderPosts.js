@@ -27,10 +27,22 @@ export default (state, elements, i18n, applyData) => {
     } = post;
 
     const postEl = document.createElement('li');
-
     postEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
-
-    postEl.innerHTML = `<a href="${link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${title}</a><button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">${i18n.t('post.info')}</button>`;
+    const linkEl = document.createElement('a');
+    linkEl.setAttribute('href', link);
+    linkEl.classList.add('fw-bold');
+    linkEl.setAttribute('data-id', id);
+    linkEl.setAttribute('target', '_blank');
+    linkEl.setAttribute('rel', 'noopener noreferrer');
+    linkEl.textContent = title;
+    const buttonEl = document.createElement('button');
+    buttonEl.setAttribute('type', 'button');
+    buttonEl.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+    buttonEl.setAttribute('data-id', id);
+    buttonEl.setAttribute('data-bs-toggle', 'modal');
+    buttonEl.setAttribute('data-bs-target', '#modal');
+    buttonEl.textContent = i18n.t('post.info');
+    postEl.append(linkEl, buttonEl);
 
     return postEl;
   });
