@@ -1,3 +1,4 @@
+import axios from 'axios';
 import parse from './parse.js';
 import genId from './genId.js';
 
@@ -14,14 +15,14 @@ export default (url, state) => {
   const error = new Error();
   error.type = 'network';
 
-  return fetch(requestUrl)
+  return axios(requestUrl)
     .then((response) => {
-      if (response.ok) {
-        return response.json();
+      if (response.status >= 200 && response.status < 300) {
+        return response;
       }
       throw error;
     })
-    .then((data) => parse(data.contents))
+    .then(({ data }) => parse(data.contents))
     .then((parsedData) => {
       const { feeds: addedFeeds } = state;
       const existingFeed = addedFeeds.find((addedFeed) => addedFeed.url === url);
