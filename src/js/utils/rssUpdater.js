@@ -21,7 +21,7 @@ const filterPosts = ({ feed, posts }, state) => {
 };
 
 const rssUpdater = (state, elements, i18n) => {
-  const { urls, posts } = state;
+  const urls = state.feeds.map((feed) => feed.url);
   const watchStartTime = new Date();
 
   urls.forEach((url) => {
@@ -29,7 +29,7 @@ const rssUpdater = (state, elements, i18n) => {
       .then((data) => filterPosts(data, state))
       .then((postsToRender) => {
         if (postsToRender.length) {
-          posts.push(...postsToRender);
+          state.posts.push(...postsToRender);
         }
       })
       .catch(() => null)

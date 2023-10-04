@@ -48,7 +48,6 @@ const applyInitialTexts = (elements, i18nInstance) => {
 
 const app = (i18nInstance) => {
   const state = {
-    urls: [],
     feeds: [],
     posts: [],
     ui: {
@@ -80,7 +79,7 @@ const app = (i18nInstance) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const url = formData.get('url').trim();
-    const { urls: existingUrls } = state;
+    const existingUrls = state.feeds.map((feed) => feed.url);
 
     watchedState.ui.loadingProcess = 'loading';
     watchedState.ui.form.error = null;
@@ -89,13 +88,12 @@ const app = (i18nInstance) => {
       .then(() => getRss(url, state))
       .then(({ feed, posts }) => {
         watchedState.ui.form.error = null;
-        state.urls.push(url);
         watchedState.feeds = [...state.feeds, feed];
         watchedState.posts = [...state.posts, ...posts];
 
         watchedState.ui.loadingProcess = 'success';
 
-        if (state.urls.length === 1) {
+        if (watchedState.feeds.length === 1) {
           setTimeout(() => rssUpdater(watchedState, elements, i18nInstance), 5000);
         }
       })
