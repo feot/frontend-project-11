@@ -24,7 +24,7 @@ const rssUpdater = (state, elements, i18n) => {
   const urls = state.feeds.map((feed) => feed.url);
   const watchStartTime = new Date();
 
-  urls.forEach((url) => {
+  urls.forEach((url, i) => {
     loadRss(url, state)
       .then((data) => {
         const postsToRender = filterPosts(data, state);
@@ -35,11 +35,13 @@ const rssUpdater = (state, elements, i18n) => {
       })
       .catch(() => null)
       .finally(() => {
-        const watchEndTime = new Date();
-        const watchPassedTime = watchEndTime - watchStartTime;
-        const timeoutDelay = (watchPassedTime > delay) ? 0 : delay - watchPassedTime;
+        if (i === urls.length - 1) {
+          const watchEndTime = new Date();
+          const watchPassedTime = watchEndTime - watchStartTime;
+          const timeoutDelay = (watchPassedTime > delay) ? 0 : delay - watchPassedTime;
 
-        setTimeout(() => rssUpdater(state, elements, i18n), timeoutDelay);
+          setTimeout(() => rssUpdater(state, elements, i18n), timeoutDelay);
+        }
       });
   });
 };
