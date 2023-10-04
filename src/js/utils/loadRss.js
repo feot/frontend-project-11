@@ -12,16 +12,8 @@ const addProxy = (url) => {
 
 export default (url, state) => {
   const requestUrl = addProxy(url);
-  const error = new Error();
-  error.type = 'network';
 
   return axios(requestUrl)
-    .then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      }
-      throw error;
-    })
     .then(({ data }) => {
       const parsedData = parse(data.contents);
       const { feeds: addedFeeds } = state;
@@ -47,10 +39,9 @@ export default (url, state) => {
       return { feed, posts };
     })
     .catch((e) => {
-      if (e.type) {
-        throw e;
-      } else {
-        throw error;
+      if (e.type !== 'notRss') {
+        e.type = 'network';
       }
+      throw e;
     });
 };
