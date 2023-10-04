@@ -8,11 +8,11 @@ import postViewHandler from './postView.js';
 
 const render = (state, elements, i18n) => (path, value, _, applyData) => {
   switch (path) {
-    case 'ui.loadingProcess':
+    case 'loadingProcess':
       processHandler(value, elements, i18n);
       break;
 
-    case 'ui.form.error':
+    case 'form.error':
       errorsHandler(value, elements, i18n);
       break;
 

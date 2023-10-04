@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import resources from './locales/index.js';
 import view from './view/view.js';
 import validateUrl from './utils/validateUrl.js';
-import getRss from './utils/getRss.js';
+import loadRss from './utils/loadRss.js';
 import rssUpdater from './utils/rssUpdater.js';
 
 const getElements = () => ({
@@ -48,13 +48,13 @@ const applyInitialTexts = (elements, i18nInstance) => {
 
 const app = (i18nInstance) => {
   const state = {
+    loadingProcess: null,
     feeds: [],
     posts: [],
+    form: {
+      error: 'noError',
+    },
     ui: {
-      form: {
-        error: 'noError',
-      },
-      loadingProcess: null,
       viewedPosts: [],
       clickedPostId: null,
     },
@@ -81,27 +81,29 @@ const app = (i18nInstance) => {
     const url = formData.get('url').trim();
     const existingUrls = state.feeds.map((feed) => feed.url);
 
-    watchedState.ui.loadingProcess = 'loading';
-    watchedState.ui.form.error = null;
+    watchedState.form.error = null;
 
     validateUrl(yup, url, existingUrls)
-      .then(() => getRss(url, state))
+      .then(() => {
+        watchedState.loadingProcess = 'loading';
+        return loadRss(url, state);
+      })
       .then(({ feed, posts }) => {
-        watchedState.ui.form.error = null;
+        watchedState.form.error = null;
         watchedState.feeds = [...state.feeds, feed];
         watchedState.posts = [...state.posts, ...posts];
 
-        watchedState.ui.loadingProcess = 'success';
+        watchedState.loadingProcess = 'success';
 
         if (watchedState.feeds.length === 1) {
           setTimeout(() => rssUpdater(watchedState, elements, i18nInstance), 5000);
         }
       })
       .catch((e) => {
-        watchedState.ui.form.error = e.type;
+        watchedState.form.error = e.type;
       })
       .finally(() => {
-        watchedState.ui.loadingProcess = 'loaded';
+        watchedState.loadingProcess = 'loaded';
       });
   });
 

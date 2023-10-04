@@ -22,8 +22,8 @@ export default (url, state) => {
       }
       throw error;
     })
-    .then(({ data }) => parse(data.contents))
-    .then((parsedData) => {
+    .then(({ data }) => {
+      const parsedData = parse(data.contents);
       const { feeds: addedFeeds } = state;
       const existingFeed = addedFeeds.find((addedFeed) => addedFeed.url === url);
       let feed;

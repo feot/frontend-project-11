@@ -1,4 +1,4 @@
-import getRss from './getRss.js';
+import loadRss from './loadRss.js';
 
 const delay = 5000;
 const filterPosts = ({ feed, posts }, state) => {
@@ -25,9 +25,10 @@ const rssUpdater = (state, elements, i18n) => {
   const watchStartTime = new Date();
 
   urls.forEach((url) => {
-    getRss(url, state)
-      .then((data) => filterPosts(data, state))
-      .then((postsToRender) => {
+    loadRss(url, state)
+      .then((data) => {
+        const postsToRender = filterPosts(data, state);
+
         if (postsToRender.length) {
           state.posts.push(...postsToRender);
         }
