@@ -4,7 +4,7 @@ export default (data) => {
   const errorNode = xmlDom.querySelector('parsererror');
 
   if (errorNode) {
-    const error = new Error();
+    const error = new Error(errorNode.textContent);
     error.type = 'notRss';
     throw error;
   }

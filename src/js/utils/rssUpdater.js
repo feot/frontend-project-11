@@ -2,19 +2,11 @@ import loadRss from './loadRss.js';
 
 const delay = 5000;
 const filterPosts = ({ feed, posts }, state) => {
-  const oldFeedPosts = state.posts.filter((post) => {
-    const { feedId } = post;
-
-    return feedId === feed.id;
-  });
+  const oldFeedPosts = state.posts.filter(({ feedId }) => feedId === feed.id);
   const newPosts = posts.filter((newItem) => {
     const { link: newItemLink } = newItem;
 
-    return !oldFeedPosts.some((oldPosts) => {
-      const { link: oldItemLink } = oldPosts;
-
-      return oldItemLink === newItemLink;
-    });
+    return !oldFeedPosts.some(({ link: oldItemLink }) => oldItemLink === newItemLink);
   });
 
   return newPosts;
