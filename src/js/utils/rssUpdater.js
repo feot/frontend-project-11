@@ -22,28 +22,21 @@ const filterPosts = ({ feed, posts }, state) => {
 
 const rssUpdater = (state, elements, i18n) => {
   const urls = state.feeds.map((feed) => feed.url);
-  const watchStartTime = new Date();
+  const requests = urls.map((url) => loadRss(url, state));
 
-  urls.forEach((url, i) => {
-    loadRss(url, state)
-      .then((data) => {
-        const postsToRender = filterPosts(data, state);
+  requests.forEach((request) => request
+    .then((data) => {
+      const postsToRender = filterPosts(data, state);
 
-        if (postsToRender.length) {
-          state.posts.push(...postsToRender);
-        }
-      })
-      .catch(() => null)
-      .finally(() => {
-        if (i === urls.length - 1) {
-          const watchEndTime = new Date();
-          const watchPassedTime = watchEndTime - watchStartTime;
-          const timeoutDelay = (watchPassedTime > delay) ? 0 : delay - watchPassedTime;
+      if (postsToRender.length) {
+        state.posts.push(...postsToRender);
+      }
+    })
+    .catch(() => null));
 
-          setTimeout(() => rssUpdater(state, elements, i18n), timeoutDelay);
-        }
-      });
-  });
+  Promise.all(requests)
+    .finally(() => setTimeout(() => rssUpdater(state, elements, i18n), delay))
+    .catch(() => null);
 };
 
 export default rssUpdater;
