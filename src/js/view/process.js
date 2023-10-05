@@ -16,12 +16,13 @@ export default (value, elements, i18n) => {
 
     case 'success':
       form.reset();
+      input.focus();
+      submit.disabled = false;
       feedback.classList.add('text-success');
       feedback.textContent = i18n.t('success');
       break;
 
-    case 'loaded':
-      input.focus();
+    case 'failure':
       submit.disabled = false;
       break;
 

@@ -48,11 +48,11 @@ const applyInitialTexts = (elements, i18nInstance) => {
 
 const app = (i18nInstance) => {
   const state = {
-    loadingProcess: null,
+    loadingProcess: 'success',
     feeds: [],
     posts: [],
     form: {
-      error: 'noError',
+      error: null,
     },
     ui: {
       viewedPosts: [],
@@ -101,9 +101,7 @@ const app = (i18nInstance) => {
       })
       .catch((e) => {
         watchedState.form.error = e.type;
-      })
-      .finally(() => {
-        watchedState.loadingProcess = 'loaded';
+        watchedState.loadingProcess = 'failure';
       });
   });
 
