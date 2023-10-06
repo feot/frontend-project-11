@@ -14,9 +14,7 @@ const filterPosts = ({ feed, posts }, state) => {
 
 const rssUpdater = (state, elements, i18n) => {
   const urls = state.feeds.map((feed) => feed.url);
-  const requests = urls.map((url) => loadRss(url, state));
-
-  requests.forEach((request) => request
+  const promisesFeeds = urls.map((url) => loadRss(url, state))
     .then((data) => {
       const postsToRender = filterPosts(data, state);
 
@@ -24,11 +22,11 @@ const rssUpdater = (state, elements, i18n) => {
         state.posts.push(...postsToRender);
       }
     })
-    .catch(() => null));
+    .catch((error) => console.log(error));
 
-  Promise.all(requests)
-    .finally(() => setTimeout(() => rssUpdater(state, elements, i18n), delay))
-    .catch(() => null);
+  Promise.all(promisesFeeds)
+    .catch((error) => console.log(error))
+    .finally(() => setTimeout(() => rssUpdater(state, elements, i18n), delay));
 };
 
 export default rssUpdater;

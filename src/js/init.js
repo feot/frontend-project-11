@@ -107,14 +107,15 @@ const app = (i18nInstance) => {
 
   elements.posts.addEventListener('click', (event) => {
     const { target } = event;
+    const targetId = target?.dataset?.id;
 
     if (target.nodeName === 'BUTTON') {
-      watchedState.ui.clickedPostId = target.dataset.id;
-      watchedState.ui.viewedPosts.push(target.dataset.id);
+      watchedState.ui.clickedPostId = targetId;
+      watchedState.ui.viewedPosts.push(targetId);
     }
 
     if (target.nodeName === 'A') {
-      watchedState.ui.viewedPosts.push(target.dataset.id);
+      watchedState.ui.viewedPosts.push(targetId);
     }
   });
 };
