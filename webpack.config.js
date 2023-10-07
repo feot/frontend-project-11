@@ -3,6 +3,7 @@
 import path from 'path';
 import url from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
 
 const filename = url.fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -25,6 +26,9 @@ const config = {
     new HtmlWebpackPlugin({
       template: './index.html',
       favicon: './src/assets/favicon.ico',
+    }),
+    new webpack.DefinePlugin({
+      'process.env.RUNTIME_ENV': JSON.stringify(process.env.RUNTIME_ENV),
     }),
   ],
   module: {

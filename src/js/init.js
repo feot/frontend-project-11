@@ -121,9 +121,12 @@ const app = (i18nInstance) => {
 };
 
 export default () => {
+  const isProdEnvironment = process.env.RUNTIME_ENV === 'vercel';
+  const lng = (isProdEnvironment) ? 'en' : 'ru';
+
   const i18nConfig = {
-    lng: 'ru',
     debug: false,
+    lng,
     resources,
   };
   const i18nInstance = i18n.createInstance();
